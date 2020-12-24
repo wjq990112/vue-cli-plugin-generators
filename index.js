@@ -1,14 +1,16 @@
 /**
  * @file Service 插件
  */
+const addComponent = require('./src/add-component');
+
 module.exports = (api, options) => {
   api.registerCommand(
     'add-component',
     {
       // TODO: 添加命令详细描述
     },
-    (args) => {
-      console.log('🔥 Test Add Component.');
+    async () => {
+      await addComponent(api, options);
     }
   );
 
@@ -17,8 +19,8 @@ module.exports = (api, options) => {
     {
       // TODO: 添加命令详细描述
     },
-    (args) => {
-      console.log('🔥 Test Add Page.');
+    async () => {
+      // TODO: 添加创建页面逻辑
     }
   );
 };

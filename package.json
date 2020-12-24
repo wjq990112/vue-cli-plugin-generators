@@ -17,6 +17,11 @@
   },
   "homepage": "https://github.com/wjq990112/vue-cli-plugin-generator#readme",
   "scripts": {},
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "glob": "^7.1.6",
+    "inquirer": "^7.3.3"
+  },
   "devDependencies": {
     "commitizen": "^4.2.2",
     "cz-conventional-changelog": "^3.3.0",
@@ -26,5 +31,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "peerDependencies": {
+    "@vue/cli-service": "^4.5.9"
   }
 }
