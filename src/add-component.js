@@ -2,11 +2,13 @@
  * @file Add Component 逻辑
  */
 const fs = require('fs');
+const path = require('path');
 const glob = require('glob');
 const chalk = require('chalk');
 const inquirer = require('inquirer');
 
 const log = require('./utils/log');
+const suffix = require('./utils/suffix');
 
 module.exports = async (api, options) => {
   // 交互式命令行参数 获取组件信息
@@ -55,7 +57,7 @@ module.exports = async (api, options) => {
   // 判断组件是否已存在
   const isExist = existComponentName.some((name) => {
     const reg = new RegExp(
-      `^(${componentName}.[vue|jsx|tsx])|(${componentName})`,
+      `^(${componentName}.[vue|jsx|tsx])|(${componentName})$`,
       'g'
     );
     return reg.test(name);
@@ -66,9 +68,10 @@ module.exports = async (api, options) => {
     return;
   }
 
-  const { shouldMkDir } = await inquirer.prompt([
+  // 交互式命令行 获取组件信息
+  const { shouldMkdir } = await inquirer.prompt([
     {
-      name: 'shouldMkDir',
+      name: 'shouldMkdir',
       type: 'confirm',
       message: `Should make a directory for new component? ${chalk.yellow(
         '( Suggest to create. )'
@@ -76,5 +79,30 @@ module.exports = async (api, options) => {
       default: true
     }
   ]);
-  // TODO: 完成文件读取写入逻辑
+
+  let src = path.resolve(
+    __dirname,
+    `../generator/template/component/${componentType}/Template${suffix(
+      componentType
+    )}`
+  );
+  let dist = `${baseDir}/${componentName}${suffix(componentType)}`;
+
+  if (shouldMkdir) {
+    try {
+      fs.mkdirSync(`${baseDir}/${componentName}`);
+      dis = `${baseDir}/${componentName}/${componentName}${suffix(
+        componentType
+      )}`;
+    } catch (e) {
+      log.error(e);
+    }
+  }
+
+  try {
+    const template = fs.readFileSync(src).toString();
+    fs.writeFileSync(dist, template.replace(/HelloWorld/g, componentName));
+  } catch (e) {
+    log.error(e);
+  }
 };
