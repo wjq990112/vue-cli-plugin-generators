@@ -1,4 +1,4 @@
-# @vue/cli-plugin-generators
+# vue-cli-plugin-generators
 
 ## Description
 
@@ -9,13 +9,13 @@ A Vue CLI plugin to generate components or pages.
 ### Install
 
 ```bash
-vue add @vue/cli-plugin-generator
+vue add vue-cli-plugin-generators
 ```
 
 or
 
 ```bash
-yarn add @vue/cli-plugin-generator -D
+yarn add vue-cli-plugin-generators -D
 yarn invoke generator
 ```
 
