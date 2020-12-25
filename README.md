@@ -2,7 +2,7 @@
 
 ## Description
 
-A Vue CLI plugin to generator Vue components or pages.
+A Vue CLI plugin to generate components or pages.
 
 ## Usage
 
