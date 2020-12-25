@@ -134,14 +134,21 @@ module.exports = async (api) => {
     if (componentType === 'sfc') {
       fs.writeFileSync(
         dist,
-        template.replace(/helloworld/gi, componentName).replace(
-          /<style>\s<\/style>/gi,
-          () => `<style${
-            componentStyleType !== '.css'
-              ? ` lang="${componentStyleType.replace('.', '')}"`
-              : ''
-          }>\n${style}</style>`
-        )
+        template
+          .replace(/helloworld/gi, componentName)
+          .replace(
+            /<style>\s<\/style>/gi,
+            () =>
+              `<style${
+                componentStyleType !== '.css'
+                  ? ` lang="${
+                      componentStyleType === '.styl'
+                        ? 'stylus'
+                        : componentStyleType.replace('.', '')
+                    }"`
+                  : ''
+              }>\n${style}</style>`
+          )
       );
     } else {
       fs.writeFileSync(
