@@ -16,7 +16,7 @@ or
 
 ```bash
 yarn add vue-cli-plugin-generators -D
-yarn invoke generator
+yarn invoke generators
 ```
 
 ### Run
