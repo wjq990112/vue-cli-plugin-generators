@@ -1,10 +1,11 @@
 {
   "name": "@vue/cli-plugin-generator",
-  "version": "0.0.1",
+  "version": "0.0.1-beta.0",
   "description": "A Vue CLI plugin to generator components or pages.",
   "main": "index.js",
   "author": "wjq990112",
   "license": "MIT License",
+  "private": false,
   "keywords": [
     "vue",
     "vue-cli",
