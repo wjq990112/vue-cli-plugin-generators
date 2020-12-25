@@ -1,6 +1,8 @@
 <template>
-  <h1>Hello{{ str }}</h1>
-  <button @click="handleStrChange">Change Hello</button>
+  <div class="HelloWorld_container">
+    <h1>Hello{{ str }}</h1>
+    <button @click="handleStrChange">Change Hello</button>
+  </div>
 </template>
 
 <script>
@@ -30,5 +32,5 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" module>
+<style>
 </style>

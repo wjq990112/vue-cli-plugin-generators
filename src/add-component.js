@@ -1,6 +1,8 @@
 /**
  * @file Add Component 逻辑
  */
+'use strict';
+
 const fs = require('fs');
 const path = require('path');
 const glob = require('glob');
@@ -10,22 +12,9 @@ const inquirer = require('inquirer');
 const log = require('./utils/log');
 const suffix = require('./utils/suffix');
 
-module.exports = async (api, options) => {
+module.exports = async (api) => {
   // 交互式命令行参数 获取组件信息
-  const { componentType, componentName } = await inquirer.prompt([
-    {
-      name: 'componentType',
-      type: 'list',
-      message: `Please select your component type. ${chalk.yellow(
-        '( .vue / .tsx / .jsx )'
-      )}`,
-      choices: [
-        { name: 'SFC (.vue)', value: 'sfc' },
-        { name: 'TSX (.tsx)', value: 'tsx' },
-        { name: 'JSX (.jsx)', value: 'jsx' }
-      ],
-      default: 'sfc'
-    },
+  const { componentName } = await inquirer.prompt([
     {
       name: 'componentName',
       type: 'input',
@@ -57,7 +46,7 @@ module.exports = async (api, options) => {
   // 判断组件是否已存在
   const isExist = existComponentName.some((name) => {
     const reg = new RegExp(
-      `^(${componentName}.[vue|jsx|tsx])|(${componentName})$`,
+      `^(${componentName}.[vue|jsx|tsx])$|^(${componentName})$`,
       'g'
     );
     return reg.test(name);
@@ -69,7 +58,39 @@ module.exports = async (api, options) => {
   }
 
   // 交互式命令行 获取组件信息
-  const { shouldMkdir } = await inquirer.prompt([
+  const {
+    componentType,
+    componentStyleType,
+    shouldMkdir
+  } = await inquirer.prompt([
+    {
+      name: 'componentType',
+      type: 'list',
+      message: `Please select your component type. ${chalk.yellow(
+        '( .vue / .tsx / .jsx )'
+      )}`,
+      choices: [
+        { name: 'SFC (.vue)', value: 'sfc' },
+        { name: 'TSX (.tsx)', value: 'tsx' },
+        { name: 'JSX (.jsx)', value: 'jsx' }
+      ],
+      default: 'sfc'
+    },
+    {
+      name: 'componentStyleType',
+      type: 'list',
+      message: `Please select your component style type. ${chalk.yellow(
+        '( .css / .sass / .scss / .less / .styl )'
+      )}`,
+      choices: [
+        { name: 'CSS (.css)', value: '.css' },
+        { name: 'SCSS (.scss)', value: '.scss' },
+        { name: 'Sass (.sass)', value: '.sass' },
+        { name: 'Less (.less)', value: '.less' },
+        { name: 'Stylus (.styl)', value: '.styl' }
+      ],
+      default: '.scss'
+    },
     {
       name: 'shouldMkdir',
       type: 'confirm',
@@ -87,22 +108,62 @@ module.exports = async (api, options) => {
     )}`
   );
   let dist = `${baseDir}/${componentName}${suffix(componentType)}`;
+  let styleSrc = path.resolve(
+    __dirname,
+    `../generator/template/component/style/index${componentStyleType}`
+  );
+  let styleDist = `${baseDir}/${componentName}${componentStyleType}`;
 
   if (shouldMkdir) {
     try {
       fs.mkdirSync(`${baseDir}/${componentName}`);
-      dis = `${baseDir}/${componentName}/${componentName}${suffix(
+      dist = `${baseDir}/${componentName}/${componentName}${suffix(
         componentType
       )}`;
+      styleDist = `${baseDir}/${componentName}/index${componentStyleType}`;
     } catch (e) {
       log.error(e);
+      return;
     }
   }
 
+  // 生成 SFC/TSX/JSX 及 CSS/SCSS/Sass/Less/Stylus
   try {
     const template = fs.readFileSync(src).toString();
-    fs.writeFileSync(dist, template.replace(/HelloWorld/g, componentName));
+    const style = fs.readFileSync(styleSrc).toString();
+    if (componentType === 'sfc') {
+      fs.writeFileSync(
+        dist,
+        template.replace(/helloworld/gi, componentName).replace(
+          /<style>\s<\/style>/gi,
+          () => `<style${
+            componentStyleType !== '.css'
+              ? ` lang="${componentStyleType.replace('.', '')}"`
+              : ''
+          }>\n${style}</style>`
+        )
+      );
+    } else {
+      fs.writeFileSync(
+        dist,
+        template
+          .replace(/helloworld/gi, componentName)
+          .replace(
+            /import '\.\/index\.css';/gi,
+            `import './${
+              shouldMkdir ? 'index' : `${componentName}`
+            }${componentStyleType}';`
+          )
+      );
+      fs.writeFileSync(styleDist, style.replace(/helloworld/gi, componentName));
+    }
+    log.success(
+      `Success: Component ${chalk.bold(
+        componentName
+      )} was created in ${chalk.bold(dist)}`
+    );
   } catch (e) {
     log.error(e);
+    return;
   }
 };

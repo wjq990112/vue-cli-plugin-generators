@@ -3,6 +3,8 @@
  */
 import { defineComponent, ref } from 'vue';
 
+import './index.css';
+
 export default defineComponent({
   name: 'HelloWorld',
   setup() {
@@ -25,10 +27,10 @@ export default defineComponent({
     const { str, handleStrChange } = this;
 
     return (
-      <>
+      <div className="HelloWorld_container">
         <h1>Hello{str}!</h1>
         <button onClick={handleStrChange}>Change Hello</button>
-      </>
+      </div>
     );
   }
 });

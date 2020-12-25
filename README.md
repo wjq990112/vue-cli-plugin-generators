@@ -9,19 +9,14 @@ A Vue CLI plugin to generator Vue components or pages.
 ### Install
 
 ```bash
-yarn add @vue/cli-plugin-generator -D
-yarn invoke generator
+vue add @vue/cli-plugin-generator
 ```
 
-### Edit `package.json`
+or
 
-```json
-{
-  "scripts": {
-    "add-component": "vue-cli-service add-component",
-    "add-page": "vue-cli-service add-page"
-  }
-}
+```bash
+yarn add @vue/cli-plugin-generator -D
+yarn invoke generator
 ```
 
 ### Run
@@ -50,6 +45,8 @@ yarn add-page
  */
 import { defineComponent, ref } from 'vue';
 
+import './index.css';
+
 export default defineComponent({
   name: 'HelloWorld',
   setup() {
@@ -72,10 +69,10 @@ export default defineComponent({
     const { str, handleStrChange } = this;
 
     return (
-      <>
+      <div className="HelloWorld_container">
         <h1>Hello{str}!</h1>
         <button onClick={handleStrChange}>Change Hello</button>
-      </>
+      </div>
     );
   }
 });
@@ -85,8 +82,10 @@ export default defineComponent({
 
 ```vue
 <template>
-  <h1>Hello{{ str }}</h1>
-  <button @click="handleStrChange">Change Hello</button>
+  <div class="HelloWorld_container">
+    <h1>Hello{{ str }}</h1>
+    <button @click="handleStrChange">Change Hello</button>
+  </div>
 </template>
 
 <script>
@@ -116,5 +115,6 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" module></style>
+<style>
+</style>
 ```

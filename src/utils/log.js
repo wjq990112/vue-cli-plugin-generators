@@ -1,3 +1,5 @@
+'use strict';
+
 const chalk = require('chalk');
 
 const log = {
@@ -5,7 +7,7 @@ const log = {
     console.log(`${chalk.bgBlue.black(' INFO ')} ${chalk.blue(msg)}`);
   },
   success(msg) {
-    console.log(`${chalk.bgGreen.black(' SUCCESS ')} ${chalk.green(msg)}`);
+    console.log(`${chalk.bgGreen.black(' DONE ')} ${chalk.green(msg)}`);
   },
   warn(msg) {
     console.log(`${chalk.bgYellow.black(' WARN ')} ${chalk.yellow(msg)}`);

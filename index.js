@@ -1,7 +1,10 @@
 /**
  * @file Service 插件
  */
+'use strict';
+
 const addComponent = require('./src/add-component');
+const addPage = require('./src/add-page');
 
 module.exports = (api, options) => {
   api.registerCommand(
@@ -10,7 +13,7 @@ module.exports = (api, options) => {
       // TODO: 添加命令详细描述
     },
     async () => {
-      await addComponent(api, options);
+      await addComponent(api);
     }
   );
 
@@ -20,7 +23,7 @@ module.exports = (api, options) => {
       // TODO: 添加命令详细描述
     },
     async () => {
-      // TODO: 添加创建页面逻辑
+      await addPage(api);
     }
   );
 };
