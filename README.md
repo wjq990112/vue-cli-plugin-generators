@@ -1,4 +1,4 @@
-# @vue/cli-plugin-generator
+# @vue/cli-plugin-generators
 
 ## Description
 
