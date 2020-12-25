@@ -14,9 +14,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wjq990112/vue-cli-plugin-generator.git"
+    "url": "git+https://github.com/wjq990112/vue-cli-plugin-generators.git"
   },
-  "homepage": "https://github.com/wjq990112/vue-cli-plugin-generator#readme",
+  "homepage": "https://github.com/wjq990112/vue-cli-plugin-generators#readme",
   "scripts": {},
   "dependencies": {
     "chalk": "^4.1.0",
