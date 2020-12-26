@@ -4,6 +4,28 @@
 
 A Vue CLI plugin to generate components or pages.
 
+## Support
+
+### Component
+
+[x] SFC(.vue)
+
+[x] TSX(.tsx)
+
+[x] JSX(.jsx)
+
+### Style
+
+[x] CSS(.css)
+
+[x] SCSS(.scss)
+
+[x] Sass(.sass)
+
+[x] Less(.less)
+
+[x] Stylus(.styl)
+
 ## Usage
 
 ### Install

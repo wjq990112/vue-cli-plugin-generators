@@ -129,40 +129,42 @@ module.exports = async (api) => {
 
   // 生成 SFC/TSX/JSX 及 CSS/SCSS/Sass/Less/Stylus
   try {
-    const template = fs.readFileSync(src).toString();
-    const style = fs.readFileSync(styleSrc).toString();
+    const template = fs
+      .readFileSync(src)
+      .toString()
+      .replace(/helloworld/gi, componentName);
+    const style = fs
+      .readFileSync(styleSrc)
+      .toString()
+      .replace(/helloworld/gi, componentName);
     if (componentType === 'sfc') {
       fs.writeFileSync(
         dist,
-        template
-          .replace(/helloworld/gi, componentName)
-          .replace(
-            /<style>\s<\/style>/gi,
-            () =>
-              `<style${
-                componentStyleType !== '.css'
-                  ? ` lang="${
-                      componentStyleType === '.styl'
-                        ? 'stylus'
-                        : componentStyleType.replace('.', '')
-                    }"`
-                  : ''
-              }>\n${style}</style>`
-          )
+        template.replace(
+          /<style>\s<\/style>/gi,
+          () =>
+            `<style${
+              componentStyleType !== '.css'
+                ? ` lang="${
+                    componentStyleType === '.styl'
+                      ? 'stylus'
+                      : componentStyleType.replace('.', '')
+                  }"`
+                : ''
+            }>\n${style}</style>`
+        )
       );
     } else {
       fs.writeFileSync(
         dist,
-        template
-          .replace(/helloworld/gi, componentName)
-          .replace(
-            /import '\.\/index\.css';/gi,
-            `import './${
-              shouldMkdir ? 'index' : `${componentName}`
-            }${componentStyleType}';`
-          )
+        template.replace(
+          /import '\.\/index\.css';/gi,
+          `import './${
+            shouldMkdir ? 'index' : `${componentName}`
+          }${componentStyleType}';`
+        )
       );
-      fs.writeFileSync(styleDist, style.replace(/helloworld/gi, componentName));
+      fs.writeFileSync(styleDist, style);
     }
     log.success(
       `Success: Component ${chalk.bold(
