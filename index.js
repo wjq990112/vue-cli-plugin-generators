@@ -10,7 +10,9 @@ module.exports = (api, options) => {
   api.registerCommand(
     'add-component',
     {
-      // TODO: 添加命令详细描述
+      description:
+        'use SFC/TSX/JSX & CSS/Sass/SCSS/Less/Stylus to add components.',
+      usage: 'vue-cli-service add-component'
     },
     async () => {
       await addComponent(api);
@@ -20,7 +22,8 @@ module.exports = (api, options) => {
   api.registerCommand(
     'add-page',
     {
-      // TODO: 添加命令详细描述
+      description: 'use SFC/TSX/JSX & CSS/Sass/SCSS/Less/Stylus to add pages.',
+      usage: 'vue-cli-service add-page'
     },
     async () => {
       await addPage(api);
